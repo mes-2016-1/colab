@@ -1,3 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException
+
 @when(u'I access the URL "{url}"')
 def step_impl(context, url):
     context.driver.get(context.base_url + "/")
