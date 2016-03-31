@@ -1,4 +1,5 @@
 
+@selenium
 Feature: User Sign Up
     In order to use the system
     As an User
