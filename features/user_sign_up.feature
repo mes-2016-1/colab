@@ -15,7 +15,6 @@ Feature: User Sign Up
         Then The field "id_password1" should have an error
         Then The field "id_password2" should have an error
 
-
     Scenario: Sign up with all required information
         When I access the URL "/"
         When I click in "Register"
