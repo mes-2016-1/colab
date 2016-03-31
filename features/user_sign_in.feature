@@ -18,5 +18,12 @@ Feature: User sign in
     When I fill "colabtest" in "id_password" field
     When I click in "Login" button
     Then The browser URL should be "/dashboard"
-    
 
+  Scenario: Sign in with an unregistered user
+    When I access the URL "/"
+    When I click in "Login"
+    When I fill "unregistered" in "id_username" field
+    When I fill "any" in "id_password" field
+    When I click in "Login" button
+    Then The browser URL should be "/account/login"
+    Then I should see "Please correct the error below and try again" in "main-content"
