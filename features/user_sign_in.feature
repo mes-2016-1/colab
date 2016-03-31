@@ -13,7 +13,7 @@ Feature: User sign in
   Scenario: Sign in with a valid user
     When I access the URL "/"
     When I click in "Login"
-    Given The user "colabtest" with the password "colabtest" exists
+    Given The user "colabtest" with the password "colabtest" that is "active"
     When I fill "colabtest" in "id_username" field
     When I fill "colabtest" in "id_password" field
     When I click in "Login" button
@@ -27,3 +27,13 @@ Feature: User sign in
     When I click in "Login" button
     Then The browser URL should be "/account/login"
     Then I should see "Please correct the error below and try again" in "main-content"
+
+  Scenario: Sign in with a inactive user
+    When I access the URL "/"
+    When I click in "Login"
+    Given The user "colabtest" with the password "colabtest" that is "inactive"
+    When I fill "colabtest" in "id_username" field
+    When I fill "colabtest" in "id_password" field
+    When I click in "Login" button
+    Then The browser URL should be "/account/login"
+    Then I should see "This account is inactive" in "main-content"
