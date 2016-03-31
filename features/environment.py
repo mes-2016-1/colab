@@ -8,5 +8,6 @@ def before_feature(context, feature):
     else:
         context.driver = webdriver.PhantomJS()
 
+
 def after_feature(context, feature):
     context.driver.quit()
