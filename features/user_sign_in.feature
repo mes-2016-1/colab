@@ -21,6 +21,14 @@ Feature: User sign in
     When I click in "Login" button
     Then The browser URL should be "/dashboard"
 
+  Scenario: Sign in with a valid user by hitting ENTER
+    When I access the URL "/"
+    When I click in "Login"
+    Given The user "colabtest" with the password "colabtest" that is "active"
+    When I fill "colabtest" in "id_username" field
+    When I fill "colabtest" in "id_password" field and hit enter
+    Then The browser URL should be "/dashboard"
+
   Scenario: Sign in with a valid user and displaying user profile 
     When I access the URL "/"
     When I click in "Login"

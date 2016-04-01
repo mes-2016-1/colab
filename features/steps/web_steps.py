@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 
 @when(u'I access the URL "{url}"')
 def step_impl(context, url):
@@ -21,6 +21,13 @@ def step_impl(context, text, field_id):
     field = context.driver.find_element_by_id(field_id)
     field.clear()
     field.send_keys(text)
+
+@when(u'I fill "{text}" in "{field_id}" field and hit enter')
+def step_impl(context, text, field_id):
+    field = context.driver.find_element_by_id(field_id)
+    field.clear()
+    field.send_keys(text)   
+    field.send_keys(Keys.RETURN)
 
 
 @then(u'The field "{field_id}" should have an error')
