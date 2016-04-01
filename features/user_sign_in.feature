@@ -5,6 +5,8 @@ Feature: User sign in
   As an User
   I want to be able to sign in
 
+  # Valid scenarios
+
   Scenario: Clicking the login button and displaying login page
     When I access the URL "/"
     When I click in "Login"
@@ -18,6 +20,20 @@ Feature: User sign in
     When I fill "colabtest" in "id_password" field
     When I click in "Login" button
     Then The browser URL should be "/dashboard"
+
+  Scenario: Sign in with a valid user and displaying user profile 
+    When I access the URL "/"
+    When I click in "Login"
+    Given The user "colabtest" with the password "colabtest" that is "active"
+    When I fill "colabtest" in "id_username" field
+    When I fill "colabtest" in "id_password" field
+    When I click in "Login" button
+    Then The browser URL should be "/dashboard"
+    Then I should see "USERtestCoLaB COLAB" in "user-menu"
+    Then I should see "usertest@colab.com.br" in "user-menu"
+
+
+  # Invalid scenarios
 
   Scenario: Sign in with an unregistered user
     When I access the URL "/"
@@ -61,3 +77,4 @@ Feature: User sign in
     When I click in "Login" button
     Then The browser URL should be "/account/login"
     Then The field "id_username" should have an error
+
