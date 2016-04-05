@@ -129,3 +129,98 @@ Follow the steps below:
 .. code-block::
 
   python setup.py test
+
+How to run Acceptance Tests
+---------------------------
+
+Follow the steps below to run the acceptance tests. Perharps you may want to run the install commands with 'sudo'.
+
+1- Log in virtual machine:
+
+.. code-block::
+
+  vagrant ssh
+
+2- Use colab virtualenv:
+
+.. code-block::
+
+  workon colab
+
+3- Install 'behave_django':
+
+.. code-block::
+
+  pip install behave_django
+
+4- Add 'behave_django' to the django project INSTALED_APPS list, on settings.py.
+
+5- Install selenium:
+
+.. code-block::
+
+  pip install selenium
+
+6- Make sure you have the web browser Firefox installed on your VM. You can simply install it by typing:
+
+CentOS
+
+.. code-block::
+
+  yum install firefox
+
+Ubuntu
+
+.. code-block::
+
+  apt-get install firefox
+
+7- Make sure that you have the X11 installed on your VM. You can install it by typing:
+
+CentOS
+
+.. code-block::
+
+  yum groupinstall x11
+
+Ubuntu
+
+.. code-block::
+
+  apt-get install xorg
+
+8- Exit the VM and then enter again using this, to give the VM access to your graphic interface:
+
+.. code-block::
+
+  vagrant ssh -- -X
+
+9- Use colab virtualenv:
+
+.. code-block::
+
+  workon colab
+
+10- Enter into colab source code directory:
+
+.. code-block::
+
+  cd /vagrant
+
+11- Run all the acceptance tests with:
+
+.. code-block::
+
+  colab-admin behave
+
+To run a specific feature:
+
+.. code-block::
+
+  colab-admin behave /path/to/features/file.feature
+
+12- If you try to run the behave tests and stumble in some errors because of static files (css, js, etc), try running the following to fix it:
+
+.. code-block::
+
+  sudo `which colab-admin` collectstatic
