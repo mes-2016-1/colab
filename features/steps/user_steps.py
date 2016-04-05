@@ -1,6 +1,9 @@
 from colab.accounts.models import User
+from behave import given, when
 
-@given(u'The user "{username}" with the password "{password}" that is "{status}"')
+
+@given(u'The user "{username}" with the password "{password}" \
+        that is "{status}"')
 def create_user(context, username, password, status):
     user = User()
     user.username = username
@@ -12,12 +15,12 @@ def create_user(context, username, password, status):
     user.first_name = "USERtestCoLaB"
     user.last_name = "COLAB"
     user.needs_update = False
-    
+
     if status == "active":
         user.is_active = True
     else:
         user.is_active = False
-    
+
     user.save()
 
 
