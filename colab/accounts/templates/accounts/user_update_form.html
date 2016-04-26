@@ -18,6 +18,13 @@ $(function() {
       url: "{% url 'email_view' %}",
       type: 'post',
       data: { email: $('#new_email').val(), user: '{{ user_.pk }}' },
+      error: function () {
+        var msg = '{% trans "Invalid email" %}';
+        $('#alert-message').text(msg);
+        $('#alert-js').removeClass('alert-warning').addClass('alert-danger');
+        $('#alert-js').show();
+        window.scroll(0, 0);
+      },
       beforeSend: function(xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
       }

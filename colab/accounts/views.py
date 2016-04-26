@@ -9,13 +9,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError
 from django.http import Http404
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, UpdateView, View
+from django.core.validators import validate_email
 
 from colab.plugins.utils.collaborations import get_collaboration_data
 from colab.accounts.models import (User, EmailAddress, EmailAddressValidation)
@@ -128,6 +129,11 @@ class EmailView(View):
         email = request.POST.get('email')
         user_id = request.POST.get('user')
         if not email:
+            return http.HttpResponseBadRequest()
+
+        try:
+            validate_email(email)
+        except ValidationError:
             return http.HttpResponseBadRequest()
 
         try:

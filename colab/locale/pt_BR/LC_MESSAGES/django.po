@@ -746,3 +746,6 @@ msgstr "Discussão"
 
 msgid "at"
 msgstr "às"
+
+msgid "Invalid email"
+msgstr "E-mail inválido"
