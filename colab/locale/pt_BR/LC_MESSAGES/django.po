@@ -747,3 +747,9 @@ msgstr "Discussão"
 
 msgid "at"
 msgstr "às"
+
+msgid "Page"
+msgstr "Página"
+
+msgid "of"
+msgstr "de"
