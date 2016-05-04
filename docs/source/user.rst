@@ -58,6 +58,32 @@ View the following file:
 
 The file /etc/colab/settings.py have the configurations of colab, this configurations overrides the django settings.py
 
+Colab can generate its own default settings file for development environment with
+
+.. code-block:: shell
+
+   $ colab-admin initconfig > /etc/colab/settings.py
+
+Colab development settings - Log Level
+++++++++++++++++++
+
+If you used the default settings file from initconfig. You can especify the environment variable **COLAB_LOGLEVEL** to set which log level you want to
+show on the console.
+
+You can also set **COLAB_DEBUG** that is an alias to *COLAB_LOGLEVEL=DEBUG*
+
+The following log levels exist:
+
+* **DEBUG**: Show everything possible.
+* **INFO**: Show info, and errors.
+* **ERROR**: Default behavior, show errors, warnings and critical messages.
+
+Example of running runserver showing **INFO** logs:
+
+.. code-block:: shell
+
+   $ COLAB_LOGLEVEL=INFO colab-admin runserver 0.0.0.0:8000
+
 Widgets
 -------
 
@@ -368,3 +394,13 @@ Menu
 Templates
 +++++++++
 .. TODO
+
+Verify Inactive User
+++++++++
+
+.. attribute:: ACCOUNT_VERIFICATION_TIME
+
+   :default: timedelta(hours=48)
+
+   This variable will be used to remove inactive user.
+   By default, this time is 48 hours.

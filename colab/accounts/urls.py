@@ -9,7 +9,8 @@ from colab.accounts.forms import (ColabSetPasswordForm,
                                   ColabPasswordChangeForm)
 
 urlpatterns = patterns('',
-    url(r'^login/?$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^login/?$', 'django.contrib.auth.views.login',
+        {'redirect_field_name': 'previous_path'}, name='login'),
 
     url(r'^logout/?$', 'django.contrib.auth.views.logout',
         {'next_page': 'home'}, name='logout'),

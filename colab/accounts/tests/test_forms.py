@@ -4,18 +4,16 @@ Objective: Test parameters, and behavior.
 """
 
 import datetime
-from mock import patch
-
 from django.test import TestCase, override_settings
 from django.core.urlresolvers import reverse
-
+from mock import patch
+from colab.accounts import forms as accounts_forms
+from colab.accounts.models import User
 from colab.accounts.forms import (UserCreationForm, UserChangeForm,
                                   UserUpdateForm, UserForm,
                                   ColabSetPasswordForm,
                                   ColabPasswordChangeForm,
                                   ColabSetUsernameForm)
-from colab.accounts import forms as accounts_forms
-from colab.accounts.models import User
 
 
 class SetPasswordFormTestCase(TestCase):
@@ -283,6 +281,10 @@ class UserCreationFormTestCase(TestCase):
 
         cls.user.set_password("123colab4")
         cls.user.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.all().delete()
 
     def get_form_data(self, email, username='test_user',
                       password1='12345', password2='12345'):
