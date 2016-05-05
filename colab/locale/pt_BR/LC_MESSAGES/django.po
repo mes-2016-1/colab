@@ -747,3 +747,6 @@ msgstr "Discussão"
 
 msgid "at"
 msgstr "às"
+
+msgid "Private"
+msgstr "Privada"
