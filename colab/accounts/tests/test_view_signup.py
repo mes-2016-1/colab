@@ -36,3 +36,38 @@ class TestSignUpView(TestCase):
         url = "http://testserver/account/usertestcolab"
         self.assertEquals(url, response.url)
         self.client.logout()
+
+    def test_user_authenticated_and_registered_with_post(self):
+        self.user.needs_update = False
+        self.user.save()
+        self.client.login(username="usertestcolab", password="123colab4")
+        response = self.client.post("/account/register/")
+        self.assertEquals(302, response.status_code)
+        url = "http://testserver/account/usertestcolab"
+        self.assertEquals(url, response.url)
+        self.client.logout()
+
+    def test_signup_with_post_not_success(self):
+        data_user = {
+            'username': 'username',
+            'password1': 'safepassword',
+            'password2': 'safepassword',
+        }
+        before = User.objects.count()
+        self.client.post('/account/register', data=data_user)
+        after = User.objects.count()
+        self.assertEqual(before, after)
+
+    def test_signup_with_post_with_success(self):
+        data_user = {
+            'username': 'username',
+            'first_name': 'first name',
+            'last_name': 'last name',
+            'email': 'mail@mail.com',
+            'password1': 'safepassword',
+            'password2': 'safepassword',
+        }
+        before = User.objects.count()
+        self.client.post('/account/register', data=data_user)
+        after = User.objects.count()
+        self.assertEqual(before + 1, after)

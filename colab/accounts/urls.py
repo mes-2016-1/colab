@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth import views as auth_views
 
 from colab.accounts.views import (UserProfileDetailView, UserProfileUpdateView,
-                                  EmailValidationView, EmailView)
+                                  EmailValidationView, EmailView, SignupView)
 
 from colab.accounts.forms import (ColabSetPasswordForm,
                                   ColabPasswordChangeForm)
@@ -41,7 +41,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
-    url(r'^register/?$', 'colab.accounts.views.signup', name='signup'),
+    url(r'^register/?$', SignupView.as_view(), name='signup'),
 
     url(r'^(?P<username>[\w@+.-]+)/?$',
         UserProfileDetailView.as_view(), name='user_profile'),

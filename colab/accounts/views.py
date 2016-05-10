@@ -216,50 +216,72 @@ class EmailValidationView(View):
         return http.HttpResponse(status=204)
 
 
-def signup(request):
+class SignupView(View):
 
-    if request.user.is_authenticated():
-        if not request.user.needs_update:
-            return redirect('user_profile', username=request.user.username)
+    def is_logged(self, user):
+        """Check if a logged user is trying to access the register page.
+           If so, redirect him/her to his/her profile"""
 
-    if request.method == 'GET':
-        user_form = ColabSetUsernameForm()
+        response = None
+        if user.is_authenticated():
+            if not user.needs_update:
+                response = redirect('user_profile', username=user.username)
 
-        return render(request, 'accounts/user_create_form.html',
-                      {'user_form': user_form, })
+        return response
 
-    user_form = ColabSetUsernameForm(request.POST)
+    def get(self, request):
 
-    if not user_form.is_valid():
-        return render(request, 'accounts/user_create_form.html',
-                      {'user_form': user_form, })
+        response = self.is_logged(request.user)
+        if not response:
+            user_form = ColabSetUsernameForm()
+            response = render(request, 'accounts/user_create_form.html',
+                              {'user_form': user_form, })
 
-    user = user_form.save(commit=False)
-    user.needs_update = False
+        return response
 
-    user.is_active = False
-    user.save()
+    def post(self, request):
 
-    email = EmailAddressValidation.create(user.email, user)
+        response = self.is_logged(request.user)
+        if not response:
+            user_form = ColabSetUsernameForm(request.POST)
 
-    location = reverse('email_view',
-                       kwargs={'key': email.validation_key})
-    verification_url = request.build_absolute_uri(location)
-    EmailAddressValidation.verify_email(email, verification_url)
+            if user_form.is_valid():
+                user = user_form.save(commit=False)
+                user.needs_update = False
 
-    # Check if the user's email have been used previously
-    #   in the mainling lists to link the user to old messages
-    email_addr, created = EmailAddress.objects.get_or_create(
-        address=user.email)
-    if created:
-        email_addr.real_name = user.get_full_name()
+                user.is_active = False
+                user.save()
 
-    email_addr.user = user
-    email_addr.save()
+                self.verify_email(request, user)
 
-    messages.success(request, _('Your profile has been created!'))
+                messages.success(request, _('Your profile has been created!'))
 
-    return redirect('user_profile', username=user.username)
+                response = redirect('user_profile', username=user.username)
+
+            else:
+                response = render(request, 'accounts/user_create_form.html',
+                                  {'user_form': user_form, })
+
+        return response
+
+    def verify_email(self, request, user):
+
+        email = EmailAddressValidation.create(user.email, user)
+
+        location = reverse('email_view',
+                           kwargs={'key': email.validation_key})
+        verification_url = request.build_absolute_uri(location)
+        EmailAddressValidation.verify_email(email, verification_url)
+
+        # Check if the user's email have been used previously
+        #   in the mainling lists to link the user to old messages
+        email_addr, created = EmailAddress.objects.get_or_create(
+            address=user.email)
+        if created:
+            email_addr.real_name = user.get_full_name()
+
+        email_addr.user = user
+        email_addr.save()
 
 
 def password_changed(request):
