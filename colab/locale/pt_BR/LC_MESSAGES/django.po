@@ -747,3 +747,9 @@ msgstr "Discussão"
 
 msgid "at"
 msgstr "às"
+
+msgid "Inform the list name"
+msgstr "Informe o nome da lista"
+
+msgid "List not found."
+msgstr "Lista não encontrada."
