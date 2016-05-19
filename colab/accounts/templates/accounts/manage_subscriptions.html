@@ -11,7 +11,7 @@
 $(function (){
 
   searchMaillingLists();
-  
+
   $('#search_list').on('click', function(event) {
     searchMaillingLists();
   });
@@ -25,18 +25,22 @@ $(function (){
         alert("error");
       },
       success: function(data){
-        alert(data);
         $("#subscription_lists").html(data);
       },
       beforeSend: function(xhr, settings) {
         xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
       }
-    }).done(function() {
-      // location.reload();
     });
 
     event.preventDefault();
   }
+
+  $('#list_name').on('keypress', function(event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      $('#search_list').trigger('click');
+    }
+  });
 });
 </script>
 
