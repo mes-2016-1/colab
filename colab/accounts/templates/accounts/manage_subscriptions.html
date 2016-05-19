@@ -7,37 +7,54 @@
   <h3>{% gravatar user_.email 50 %} {{ user_.get_full_name }} ({{ user_.username }})</h3>
   <br>
 
-  <form method='post'>
-    {% csrf_token %}
+<script>
+$(function (){
 
-    <div class="row">
-      {% for email, lists in membership.items %}
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{{ email }}</h3>
-          </div>
-          <div class="panel-body">
-            {% for list, checked in lists %}
-              <div class="checkbox" title="{{ list.description }}">
-                <label>
-                  <input name="{{ email }}" value="{{ list.listname }}" type="checkbox" {% if checked %}checked{% endif%}>{{ list.listname }}</input>
-                </label>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
+  searchMaillingLists();
+  
+  $('#search_list').on('click', function(event) {
+    searchMaillingLists();
+  });
+
+  function searchMaillingLists(){
+    $.ajax({
+      url: "/archives/{{user_.username}}/subscriptions",
+      type: 'post',
+      data: { listname: $('#list_name').val(), user: '{{ user_.pk }}' },
+      error: function(){
+        alert("error");
+      },
+      success: function(data){
+        alert(data);
+        $("#subscription_lists").html(data);
+      },
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+      }
+    }).done(function() {
+      // location.reload();
+    });
+
+    event.preventDefault();
+  }
+});
+</script>
+
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <div class="input-group">
+        <input id="list_name" type="text" class="form-control" placeholder="{% trans "Inform the list name" %}">
+        <span class="input-group-btn">
+          <button id="search_list" type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
       </div>
-      {% endfor %}
     </div>
-
-    <div class="row">
-      <div class="text-center">
-        <button class="btn btn-lg btn-primary" type="submit">{% trans 'Update subscriptions' %}</button>
-      </div>
-    </div>
-
-  </form>
+  </div>
+  <br>
+  
+  <div id="subscription_lists"></div>
 
  <br><br>
  <br><br>
