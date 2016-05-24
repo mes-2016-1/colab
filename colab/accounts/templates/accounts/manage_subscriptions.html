@@ -10,6 +10,7 @@
 <script>
 $(function (){
 
+  ENTER_BUTTON = 13;
   searchMaillingLists();
 
   $('#search_list').on('click', function(event) {
@@ -17,10 +18,10 @@ $(function (){
   });
 
   $('#list_name').on('keypress', function(event) {
-    if (event.which == 13) {
+    if (event.which == ENTER_BUTTON) {
       event.preventDefault();
-      $('#search_list').trigger('click');
     }
+    $('#search_list').trigger('click');
   });
   
   function searchMaillingLists(){
