@@ -29,9 +29,6 @@ $(function (){
       url: "/archives/{{user_.username}}/subscriptions",
       type: 'post',
       data: { listname: $('#list_name').val(), user: '{{ user_.pk }}' },
-      error: function(){
-        alert("error");
-      },
       success: function(data){
         $("#subscription_lists").html(data);
       },
@@ -58,7 +55,10 @@ $(function (){
   </div>
   <br>
   
-  <div id="subscription_lists"></div>
+  <form method='post'>
+  {% csrf_token %}
+    <div id="subscription_lists"></div>
+  </form>
 
  <br><br>
  <br><br>
