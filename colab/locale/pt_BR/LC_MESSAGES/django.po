@@ -759,3 +759,10 @@ msgstr "E-mail inválido"
 
 msgid "Private"
 msgstr "Privada"
+
+msgid "Inform the list name"
+msgstr "Informe o nome da lista"
+
+msgid "List not found."
+msgstr "Lista não encontrada."
+

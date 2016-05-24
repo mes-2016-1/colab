@@ -10,12 +10,20 @@
 <script>
 $(function (){
 
+  ENTER_BUTTON = 13;
   searchMaillingLists();
 
   $('#search_list').on('click', function(event) {
     searchMaillingLists();
   });
 
+  $('#list_name').on('keypress', function(event) {
+    if (event.which == ENTER_BUTTON) {
+      event.preventDefault();
+    }
+    $('#search_list').trigger('click');
+  });
+  
   function searchMaillingLists(){
     $.ajax({
       url: "/archives/{{user_.username}}/subscriptions",
