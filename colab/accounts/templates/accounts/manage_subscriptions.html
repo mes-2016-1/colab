@@ -1,53 +1,17 @@
 {% extends 'base.html' %}
 {% load i18n gravatar %}
-
+{% load staticfiles %}
 {% block main-content %}
 
   <h2>{% blocktrans %}Group Subscriptions{% endblocktrans %}</h2>
   <h3>{% gravatar user_.email 50 %} {{ user_.get_full_name }} ({{ user_.username }})</h3>
   <br>
 
-<script>
-$(function (){
-
-  ENTER_BUTTON = 13;
-  searchMaillingLists();
-
-  $('#search_list').on('click', function(event) {
-    searchMaillingLists();
-  });
-
-  $('#list_name').on('keypress', function(event) {
-    if (event.which == ENTER_BUTTON) {
-      event.preventDefault();
-    }
-    $('#search_list').trigger('click');
-  });
-  
-  function searchMaillingLists(){
-    $.ajax({
-      url: "/archives/{{user_.username}}/subscriptions",
-      type: 'post',
-      data: { listname: $('#list_name').val(), user: '{{ user_.pk }}' },
-      success: function(data){
-        $("#subscription_lists").html(data);
-      },
-      beforeSend: function(xhr, settings) {
-        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
-      }
-    });
-
-    event.preventDefault();
-  }
-
-  $('#list_name').on('keypress', function(event) {
-    if (event.which == 13) {
-      event.preventDefault();
-      $('#search_list').trigger('click');
-    }
-  });
-});
-</script>
+  {% block head_js %}
+    {{block.super}}
+    <script src="{% static 'subscriptions.js' %}"></script>
+  {% endblock %}
+  <input id="user_name" type="hidden" value="{{user_.username}}">  
 
   <div class="row">
     <div class="col-lg-6 col-md-6">
