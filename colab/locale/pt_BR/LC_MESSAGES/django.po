@@ -756,3 +756,6 @@ msgstr "de"
 
 msgid "Invalid email"
 msgstr "E-mail inválido"
+
+msgid "Private"
+msgstr "Privada"
