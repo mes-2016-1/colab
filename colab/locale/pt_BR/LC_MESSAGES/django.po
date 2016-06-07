@@ -753,3 +753,6 @@ msgstr "Página"
 
 msgid "of"
 msgstr "de"
+
+msgid "Invalid email"
+msgstr "E-mail inválido"
